@@ -1,6 +1,9 @@
 // En teoria tot fet
 package org.example.view;
 
+import org.example.model.entities.Llibre;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class ModelComponentsVisuals {
@@ -15,6 +18,8 @@ public class ModelComponentsVisuals {
     public DefaultTableModel getModelRandom() {
         return modelRandom;
     }
+
+    public DefaultComboBoxModel<Llibre.ColorLlibre.color> ComboBoxModel;
 
     public ModelComponentsVisuals(){
         model = new DefaultTableModel(new Object[]{"Títol", "Autor", "Any de publicació", "Editorial", "Gènere", "Preu", "Nombre de ventes", "Nombre de pàgines", "Dibuixos", "Stock","ID"}, 0) {
@@ -43,6 +48,7 @@ public class ModelComponentsVisuals {
                         return Object.class;
                 }
             }
+
         };
 
         modelRandom = new DefaultTableModel(new Object[]{"Id Random", "Numero de files de informacio Adicional"},0){
@@ -60,7 +66,7 @@ public class ModelComponentsVisuals {
                 }
             }
         };
-
+        ComboBoxModel = new DefaultComboBoxModel<>(Llibre.ColorLlibre.color.values());
 
     }
 

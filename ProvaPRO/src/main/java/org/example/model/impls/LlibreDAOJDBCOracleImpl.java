@@ -153,31 +153,31 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
         }
     }
 
-//    public void update(Llibre obj) throws DAOException {
-//        String updateSQL = "UPDATE LLIBRE SET titol = ?, autor = ?, anyPublicacio = ?, editorial = ?, genere = ?, preu = ?, numVentes = ?, numPagines = ?, conteDibuixos = ?, estaEnStock = ? WHERE id = ?";
-//        try(Connection con = DriverManager.getConnection(
-//                "jdbc:oracle:thin:@//localhost:1521/xe",
-//                "C##HR",
-//                "HR"
-//        );
-//            PreparedStatement st = con.prepareStatement(updateSQL);
-//        ) {
-//            st.setString(1, obj.getTitol());
-//            st.setString(2, obj.getAutor());
-//            st.setInt(3, obj.getAnyPublicacio());
-//            st.setString(4, obj.getEditorial());
-//            st.setString(5, obj.getGenere());
-//            st.setDouble(6, obj.getPreu());
-//            st.setInt(7, obj.getNumVentes());
-//            st.setInt(8, obj.getNumPagines());
-//            st.setString(9, obj.isConteDibuixos()? "T" : "F");
-//            st.setString(10, obj.isEstaEnStock()? "T" : "F");
-//            st.setLong(11, obj.getId());
-//            st.executeUpdate();
-//        } catch (SQLException throwables) {
-//            throw new DAOException(1);
-//        }
-//        }
+    public void update(Llibre obj) throws DAOException {
+        String updateSQL = "UPDATE LLIBRE SET titol = ?, autor = ?, anyPublicacio = ?, editorial = ?, genere = ?, preu = ?, numVentes = ?, numPagines = ?, conteDibuixos = ?, estaEnStock = ? WHERE id = ?";
+        try(Connection con = DriverManager.getConnection(
+                "jdbc:oracle:thin:@//localhost:1521/xe",
+                "C##HR",
+                "HR"
+        );
+            PreparedStatement st = con.prepareStatement(updateSQL);
+        ) {
+            st.setString(1, obj.getTitol());
+            st.setString(2, obj.getAutor());
+            st.setInt(3, obj.getAnyPublicacio());
+            st.setString(4, obj.getEditorial());
+            st.setString(5, obj.getGenere());
+            st.setDouble(6, obj.getPreu());
+            st.setInt(7, obj.getNumVentes());
+            st.setInt(8, obj.getNumPagines());
+            st.setString(9, obj.isConteDibuixos()? "T" : "F");
+            st.setString(10, obj.isEstaEnStock()? "T" : "F");
+            st.setLong(11, obj.getID());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throw new DAOException(1);
+        }
+    }
 
     public void crearTaulaSiNoExisteix() throws DAOException {
         String CrearTaulaLlibre = "DECLARE\n" +

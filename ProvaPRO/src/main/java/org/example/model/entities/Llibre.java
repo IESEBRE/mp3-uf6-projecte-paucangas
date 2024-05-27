@@ -35,6 +35,19 @@ public class Llibre implements Serializable {
         this.estaEnStock = estaEnStock;
 
     }
+    public Llibre(String titol, String autor, int anyPublicacio, String editorial, String genere, double preu, int numVentes, int numPagines, boolean conteDibuixos, boolean estaEnStock) {
+        this.titol = titol;
+        this.autor = autor;
+        this.anyPublicacio = anyPublicacio;
+        this.editorial = editorial;
+        this.genere = genere;
+        this.preu = preu;
+        this.numVentes = numVentes;
+        this.numPagines = numPagines;
+        this.conteDibuixos = conteDibuixos;
+        this.estaEnStock = estaEnStock;
+
+    }
     public Long getIdBD(String titol) throws DAOException {
         String obtIdSQL = "SELECT id FROM LLIBRE WHERE titol = ?";
         Long id = null;
@@ -147,6 +160,30 @@ public class Llibre implements Serializable {
     public void setEstaEnStock(boolean estaEnStock) {
         this.estaEnStock = estaEnStock;
     }
+
+    //ComboBox
+    public static class ColorLlibre{
+        public enum color {
+            ROIG("Roig"), BLAU("Blau"), VERD("Verd"), GROC("Groc"), TARONJA("Taronja"),
+            LILA("Lila"), ROSA("Rosa"), GRIS("Gris"), NEGRE("Negre"), BLANC("Blanc");
+
+            private String color;
+
+            color(String escuderia) {
+                this.color = escuderia;
+            }
+
+            public String getColor() {
+                return color;
+            }
+
+            @Override
+            public String toString() {
+                return  color;
+            }
+        }
+    }
+
 
 }
 

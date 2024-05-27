@@ -269,10 +269,6 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             }
                         }
 
-                        if (model.getValueAt(filaSel, 2).equals(Integer.parseInt(anyPublicacio.getText())) && model.getValueAt(filaSel, 5).equals(Double.parseDouble(preu.getText().trim().replace(",", "."))) && model.getValueAt(filaSel, 6).equals(Integer.parseInt(numVentes.getText())) && model.getValueAt(filaSel, 7).equals(Integer.parseInt(numPagines.getText())) && model.getValueAt(filaSel, 8).equals(conteDibuixos.isSelected()) && model.getValueAt(filaSel, 9).equals(estaEnStock.isSelected())){
-                            JOptionPane.showMessageDialog(null, "No has fet cap canvi");
-                            return;
-                        }
                         try {
                             NumberFormat num = NumberFormat.getInstance(Locale.getDefault()); // Creem un número que entén la cultura que utilitza l'aplicació
                             int campAnyPublicacio = num.parse(anyPublicacio.getText().trim()).intValue(); // Intentem convertir el text a double
@@ -280,8 +276,10 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             int campNumVentes = num.parse(numVentes.getText().trim()).intValue();
                             int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
                             //-----------------------------------------------------------------
+                            long id = (long) model.getValueAt(filaSel, 10);
                             model.removeRow(filaSel);
-                            model.insertRow(filaSel, new Object[]{titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected()});
+                            model.insertRow(filaSel, new Object[]{titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(),id});
+                            dadesLlibre.update(new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(),id));
                             // Posem els camps en blanc
 
                             borrarCamp();
@@ -295,6 +293,9 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             numVentes.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                             numPagines.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                             setExcepcio(new DAOException(2));
+                        } catch (DAOException ex) {
+                            System.out.println(ex.getMessage());
+                            throw new RuntimeException(ex);
                         }
                     }
 
