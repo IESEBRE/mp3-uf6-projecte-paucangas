@@ -203,6 +203,16 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                         double campPreu = num.parse(preu.getText().trim()).doubleValue(); // Intentem convertir el text a double
                         int campNumVentes = num.parse(numVentes.getText().trim()).intValue();
                         int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
+                        //Farem un RegEx que verifique que el camp editorial comenci per una lletra majúscula i que tingui entre 2 i 50 caràcters
+
+                        String regex = "^[A-Z][a-z]{1,49}$";
+                        if (!editorial.getText().matches(regex)) {
+                            editorial.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                            JOptionPane.showMessageDialog(null, "L'editorial ha de començar per una lletra majúscula i tenir entre 2 i 50 caràcters");
+                            editorial.setText("");
+                            editorial.requestFocus();
+                            return;
+                        }
                         //-----------------------------------------------------------------
                         Llibre.ColorLlibre colorSeleccionado = (Llibre.ColorLlibre) colorL.getSelectedItem();
                         // Creem un instància de Llibre amb les dades dels camps
@@ -292,6 +302,16 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             double campPreu = num.parse(preu.getText().trim()).doubleValue(); // Intentem convertir el text a double
                             int campNumVentes = num.parse(numVentes.getText().trim()).intValue();
                             int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
+                            //Farem un RegEx que verifique que el camp editorial comenci per una lletra majúscula i que tingui entre 2 i 50 caràcters
+
+                            String regex = "^[A-Z][a-z]{1,49}$";
+                            if (!editorial.getText().matches(regex)) {
+                                editorial.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                                JOptionPane.showMessageDialog(null, "L'editorial ha de començar per una lletra majúscula i tenir entre 2 i 50 caràcters");
+                                editorial.setText("");
+                                editorial.requestFocus();
+                                return;
+                            }
                             //-----------------------------------------------------------------
                             Llibre.ColorLlibre colorSeleccionado = (Llibre.ColorLlibre) colorL.getSelectedItem();
                             long id = (long) model.getValueAt(filaSel, 11);
