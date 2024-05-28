@@ -101,6 +101,9 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
 
 
         vista.setVisible(true);
+        vista.getTabbedPaneRandom().removeTabAt(1);
+        vista.getInformacioAdicionalButton().setVisible(false);
+        vista.getDesaButton().setVisible(false);
     }
 
     private void assignarCodiListeners() {
@@ -140,24 +143,20 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
             public void windowClosing(WindowEvent e) {
                 Object[] options = {"Si", "No"};
                 int confirm = JOptionPane.showOptionDialog(
-                        null, "Vols desar al tancar?", "Confirmació de tancament",
+                        null, "Vols sortir segur?", "Confirmació de tancament",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                 if (confirm == 0) {
                     System.exit(0);
                 } else {
-                    System.exit(0);
                 }
             }
         });
         colorL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ActionListener se ha activado");
                 JComboBox<Llibre.ColorLlibre> cb = (JComboBox<Llibre.ColorLlibre>)e.getSource();
                 Llibre.ColorLlibre selectedColor = (Llibre.ColorLlibre)cb.getSelectedItem();
                 String colorName = selectedColor.name();
-                System.out.println("Color seleccionado: " + selectedColor);
-                System.out.println("Nombre del color: " + colorName);
             }
         });
         insertarButton.addActionListener(new ActionListener() {
@@ -173,8 +172,6 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     canviarVora(numVentes);
                     canviarVora(numPagines);
 
-                    vista.getTabbedPaneRandom().setEnabledAt(1, false);
-                    vista.getTabbedPaneRandom().setTitleAt(1, "Random");
                 } else {
                     autor.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
                     titol.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
@@ -230,8 +227,8 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                         preu.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                         numVentes.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                         numPagines.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                        setExcepcio(new DAOException(2));
                     } catch (DAOException ex) {
-                        System.out.println(ex.getMessage());
                         throw new RuntimeException(ex);
                     }
                 }
@@ -264,8 +261,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
 
 
 
-                        vista.getTabbedPaneRandom().setEnabledAt(1, false);
-                        vista.getTabbedPaneRandom().setTitleAt(1, "Random");
+
                     } else{
                         autor.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
                         titol.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
@@ -334,7 +330,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             preu.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                             numVentes.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                             numPagines.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-                            setExcepcio(new DAOException(2));
+                            setExcepcio(new DAOException(3));
                         } catch (DAOException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -369,8 +365,6 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Has de seleccionar una fila per a borrar-la");
-
-                    vista.getTabbedPaneRandom().setEnabledAt(1, false);
                 }
             }
         });
@@ -392,8 +386,6 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                 numPagines.setText(model.getValueAt(filaSel, 7).toString());
                 conteDibuixos.setSelected((boolean) model.getValueAt(filaSel, 8));
                 estaEnStock.setSelected((boolean) model.getValueAt(filaSel, 9));
-                vista.getTabbedPaneRandom().setEnabledAt(1, true);
-                vista.getTabbedPaneRandom().setTitleAt(1, "Random");
 
 
 
@@ -464,7 +456,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                 } catch (ParseException | NumberFormatException pe) {
 
                     preu.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-                    setExcepcio(new DAOException(2));
+                    setExcepcio(new DAOException(4));
                     preu.setText("");
                     preu.requestFocus();
                 }
@@ -489,7 +481,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     anyPublicacio.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
                 } catch (NumberFormatException | ParseException pe) {
                     anyPublicacio.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-                    setExcepcio(new DAOException(2));
+                    setExcepcio(new DAOException(5));
                     anyPublicacio.setText("");
                     anyPublicacio.requestFocus();
                 }
@@ -513,7 +505,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     numVentes.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
                 } catch (NumberFormatException | ParseException pe) {
                     numVentes.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-                    setExcepcio(new DAOException(2));
+                    setExcepcio(new DAOException(6));
                     numVentes.setText("");
                     numVentes.requestFocus();
                 }
@@ -538,7 +530,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     numPagines.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
                 } catch (NumberFormatException | ParseException pe) {
                     numPagines.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-                    setExcepcio(new DAOException(2));
+                    setExcepcio(new DAOException(7));
                     numPagines.setText("");
                     numPagines.requestFocus();
                 }

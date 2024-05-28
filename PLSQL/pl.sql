@@ -47,3 +47,43 @@ EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Error al crear las tablas: ' || SQLERRM);
 END crear_taula_si_no_existeix;
+
+--------------------------------------------------------------------------------
+-- Crear la tabla TOTAL
+CREATE TABLE TOTAL (
+    total_rows INT
+);
+
+-- Insertar una fila en la tabla TOTAL
+INSERT INTO TOTAL (total_rows) VALUES (0);
+
+-- Crear el trigger
+CREATE OR REPLACE TRIGGER count_rows_after_insert
+AFTER INSERT OR DELETE ON LLIBRE
+DECLARE
+   row_count INT;
+BEGIN
+   SELECT COUNT(*) INTO row_count FROM LLIBRE;
+   UPDATE TOTAL SET total_rows = row_count WHERE ROWNUM = 1;
+END;
+
+-------------------------
+CREATE TABLE FUNCIONS (
+    total_borrades NUMBER
+);
+
+INSERT INTO FUNCIONS (total_borrades) VALUES (0);
+
+CREATE OR REPLACE FUNCTION incrementar_borrades RETURN NUMBER IS
+  total_borrades NUMBER;
+BEGIN
+  SELECT total_borrades INTO total_borrades FROM FUNCIONS WHERE ROWNUM = 1;
+  total_borrades := total_borrades + 1;
+  UPDATE FUNCIONS SET total_borrades = total_borrades WHERE ROWNUM = 1;
+  RETURN total_borrades;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END incrementar_borrades;
+

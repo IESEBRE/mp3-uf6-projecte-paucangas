@@ -9,6 +9,20 @@ public class DAOException extends Exception{
     //num i retorna string, el map
     static {
         missatges.put(0, "Error al connectar a la BD!!");
+        missatges.put(2, "Error al Inserir les dades a la BD!!");
+        missatges.put(3, "Error al Actualitzar les dades a la BD!!");
+        missatges.put(4, "Error al amb el format de les dades del preu!!");
+        missatges.put(5, "Error al amb el format de les dades de l'any de publicació!!");
+        missatges.put(6, "Error al amb el format de les dades del nombre de ventes!!");
+        missatges.put(7, "Error al amb el format de les dades del nombre de pàgines!!");
+        missatges.put(8, "Error amb nulls en les dades!!");
+        missatges.put(9, "Error al insertar les dades a la BD de Llibre!!");
+        missatges.put(10, "Error al insertar les dades a la BD de Ventes!!");
+        missatges.put(11, "Error al borrar les dades a la BD de Llibre!!");
+        missatges.put(12, "Error al borrar les dades a la BD de Ventes!!");
+        missatges.put(13, "Error al actualitzar les dades a la BD de Llibre!!");
+        missatges.put(14, "Error al actualitzar les dades a la BD de Ventes!!");
+        missatges.put(15, "Error al crear les taules a la BD!!");
         missatges.put(1, "Restricció d'integritat violada - clau primària duplicada");
         missatges.put(904, "Nom de columna no vàlid");
         missatges.put(936, "Falta expressió en l'ordre SQL");

@@ -52,14 +52,14 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
                         rs.getInt(8), rs.getBoolean(9), rs.getBoolean(10), rs.getString(11),rs.getLong(12));
             }
         } catch (SQLException throwables) {
-            throw new DAOException(1);
+            throw new DAOException(0);
         } finally {
             try {
                 if (rs != null) rs.close();
                 if (st != null) st.close();
                 if (con != null) con.close();
             } catch (SQLException e) {
-                throw new DAOException(1);
+                throw new DAOException(8);
             }
 
         }
@@ -137,7 +137,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
-            throw new DAOException(1);
+            throw new DAOException(9);
         }
     }
     public void insertaVentes (Llibre obj) throws DAOException {
@@ -153,23 +153,30 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             st.setDouble(2, 0);
             st.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DAOException(1);
+            throw new DAOException(10);
         }
     }
 
     public void delete(Llibre obj) throws DAOException {
         String deleteSQL = "DELETE FROM LLIBRE WHERE id = ?";
+        String callFunctionSQL = "{? = call incrementar_borrades()}";
         try(Connection con = DriverManager.getConnection(
                 dbProperties.getUrl(),
                 dbProperties.getUser(),
                 dbProperties.getPassword()
         );
             PreparedStatement st = con.prepareStatement(deleteSQL);
+            CallableStatement cs = con.prepareCall(callFunctionSQL);
         ) {
             st.setLong(1, obj.getIdBD(obj.getTitol()));
             st.executeUpdate();
+
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.execute();
+            int totalBorrades = cs.getInt(1);
+            System.out.println("Total de llibres borrats fins ara: " + totalBorrades);
         } catch (SQLException throwables) {
-            throw new DAOException(1);
+            throw new DAOException(11);
         }
     }
 
@@ -196,7 +203,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             st.setLong(12, obj.getID());
             st.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DAOException(1);
+            throw new DAOException(13);
         }
     }
     public void updatePreuPerVenda(long id) throws DAOException {
@@ -213,7 +220,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
 
             stmt.execute();
         } catch (SQLException e) {
-            throw new DAOException(1);
+            throw new DAOException(14);
         }
     }
     public void borrarVentes (long id) throws DAOException {
@@ -228,7 +235,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             st.setLong(1, id);
             st.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DAOException(1);
+            throw new DAOException(12);
         }
     }
     public void crearTaulaSiNoExisteix() throws DAOException {
@@ -242,7 +249,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             st.execute();
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
-            throw new DAOException(1);
+            throw new DAOException(15);
         }
 
     }
