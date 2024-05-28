@@ -25,7 +25,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
     //2. Propietat lligada per controlar quan genro una excepció
     public static final String PROP_EXCEPCIO = "excepcio";
     private DAOException excepcio;
-
+    private JComboBox<Llibre.ColorLlibre> colorL;
     public DAOException getExcepcio() {
         return excepcio;
     }
@@ -84,8 +84,8 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
     private Vista vista;
 
     private ModelComponentsVisuals modelComponentsVisuals = new ModelComponentsVisuals();
-
     public Controller(LlibreDAOJDBCOracleImpl dadesLlibre, Vista vista) {
+
         this.dadesLlibre = dadesLlibre;
         this.vista = vista;
 
@@ -94,7 +94,11 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
         //Mètode per lligar la vista i el model
         lligarVistaModel();
         //Assigno el codi dels listeners
+        colorL = new JComboBox<>(Llibre.ColorLlibre.values());
         assignarCodiListeners();
+
+        colorL = new JComboBox<>(Llibre.ColorLlibre.values());
+
 
         vista.setVisible(true);
     }
@@ -122,6 +126,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
         JTextField numPagines = vista.getNumPagines();
         JCheckBox conteDibuixos = vista.getConteDibuixos();
         JCheckBox estaEnStock = vista.getEstaEnStock();
+        JComboBox<Llibre.ColorLlibre> colorL = vista.getColorL();
 
         JTable taula = vista.getTaula();
         JTable informacioAdicionalTaula = vista.getInformacioAdicionalTable();
@@ -142,6 +147,17 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                 } else {
                     System.exit(0);
                 }
+            }
+        });
+        colorL.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("ActionListener se ha activado");
+                JComboBox<Llibre.ColorLlibre> cb = (JComboBox<Llibre.ColorLlibre>)e.getSource();
+                Llibre.ColorLlibre selectedColor = (Llibre.ColorLlibre)cb.getSelectedItem();
+                String colorName = selectedColor.name();
+                System.out.println("Color seleccionado: " + selectedColor);
+                System.out.println("Nombre del color: " + colorName);
             }
         });
         insertarButton.addActionListener(new ActionListener() {
@@ -188,10 +204,11 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                         int campNumVentes = num.parse(numVentes.getText().trim()).intValue();
                         int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
                         //-----------------------------------------------------------------
+                        Llibre.ColorLlibre colorSeleccionado = (Llibre.ColorLlibre) colorL.getSelectedItem();
                         // Creem un instància de Llibre amb les dades dels camps
-                        Llibre llibre = new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(), 0);
-                        dadesLlibre.save(new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(), 0));
-                        model.addRow(new Object[]{titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(), llibre.getIdBD(titol.getText()), llibre});
+                        Llibre llibre = new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(), colorSeleccionado.getColorLlibre(), 0);
+                        dadesLlibre.save(new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(), colorSeleccionado.getColorLlibre(), 0));
+                        model.addRow(new Object[]{titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(),colorSeleccionado.getColorLlibre(), llibre.getIdBD(titol.getText()), llibre});
                         autor.setSelectionStart(0);
                         autor.setSelectionEnd(autor.getText().length());
                         autor.requestFocus();
@@ -276,10 +293,11 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             int campNumVentes = num.parse(numVentes.getText().trim()).intValue();
                             int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
                             //-----------------------------------------------------------------
-                            long id = (long) model.getValueAt(filaSel, 10);
+                            Llibre.ColorLlibre colorSeleccionado = (Llibre.ColorLlibre) colorL.getSelectedItem();
+                            long id = (long) model.getValueAt(filaSel, 11);
                             model.removeRow(filaSel);
-                            model.insertRow(filaSel, new Object[]{titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(),id});
-                            dadesLlibre.update(new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(),id));
+                            model.insertRow(filaSel, new Object[]{titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(),colorSeleccionado.getColorLlibre(),id});
+                            dadesLlibre.update(new Llibre(titol.getText(), autor.getText(), campAnyPublicacio, editorial.getText(), genere.getText(), campPreu, campNumVentes, campNumPagines, conteDibuixos.isSelected(), estaEnStock.isSelected(), colorSeleccionado.getColorLlibre(),id));
                             // Posem els camps en blanc
 
                             borrarCamp();
@@ -294,7 +312,6 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             numPagines.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                             setExcepcio(new DAOException(2));
                         } catch (DAOException ex) {
-                            System.out.println(ex.getMessage());
                             throw new RuntimeException(ex);
                         }
                     }
@@ -311,7 +328,8 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                 // Mirem si tenim una fila seleccionada
                 int filaSel = taula.getSelectedRow();
                 if (filaSel != -1) {
-                    Llibre llibre = new Llibre(titol.getText(), autor.getText(), Integer.parseInt(anyPublicacio.getText()), editorial.getText(), genere.getText(), Double.parseDouble(preu.getText().trim().replace(",", ".")), Integer.parseInt(numVentes.getText()), Integer.parseInt(numPagines.getText()), conteDibuixos.isSelected(), estaEnStock.isSelected(), 0);
+                    Llibre.ColorLlibre colorSeleccionado = (Llibre.ColorLlibre) colorL.getSelectedItem();
+                    Llibre llibre = new Llibre(titol.getText(), autor.getText(), Integer.parseInt(anyPublicacio.getText()), editorial.getText(), genere.getText(), Double.parseDouble(preu.getText().trim().replace(",", ".")), Integer.parseInt(numVentes.getText()), Integer.parseInt(numPagines.getText()), conteDibuixos.isSelected(), estaEnStock.isSelected(), colorSeleccionado.getColorLlibre(), 0);
                     model.removeRow(filaSel);
                     // Posem els camps en blanc
                     borrarCamp();
@@ -537,7 +555,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
 
     private void setModelTaulaLlibre(DefaultTableModel modelTaulaLlibre, List<Llibre> all) throws DAOException {
         for (Llibre llibre : all) {
-            modelTaulaLlibre.addRow(new Object[]{llibre.getTitol(), llibre.getAutor(),llibre.getAnyPublicacio(),llibre.getEditorial(),llibre.getGenere(),llibre.getPreu(),llibre.getNumVentes(),llibre.getNumPagines(),llibre.isConteDibuixos(),llibre.isEstaEnStock(), llibre.getIdBD(llibre.getTitol()), llibre});
+            modelTaulaLlibre.addRow(new Object[]{llibre.getTitol(), llibre.getAutor(),llibre.getAnyPublicacio(),llibre.getEditorial(),llibre.getGenere(),llibre.getPreu(),llibre.getNumVentes(),llibre.getNumPagines(),llibre.isConteDibuixos(),llibre.isEstaEnStock(),llibre.getColorL(), llibre.getIdBD(llibre.getTitol()), llibre});
         }
     }
 

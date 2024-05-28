@@ -19,25 +19,14 @@ public class Llibre implements Serializable {
     private int numPagines;
     private boolean conteDibuixos;
     private boolean estaEnStock;
+    private String colorL;
 
 
-    public Llibre(String titol, String autor, int anyPublicacio, String editorial, String genere, double preu, int numVentes, int numPagines, boolean conteDibuixos, boolean estaEnStock,long ID) {
+    public Llibre(String titol, String autor, int anyPublicacio, String editorial, String genere, double preu, int numVentes, int numPagines, boolean conteDibuixos, boolean estaEnStock, String colorL, long ID) {
         this.ID = ID;
         this.titol = titol;
         this.autor = autor;
-        this.anyPublicacio = anyPublicacio;
-        this.editorial = editorial;
-        this.genere = genere;
-        this.preu = preu;
-        this.numVentes = numVentes;
-        this.numPagines = numPagines;
-        this.conteDibuixos = conteDibuixos;
-        this.estaEnStock = estaEnStock;
-
-    }
-    public Llibre(String titol, String autor, int anyPublicacio, String editorial, String genere, double preu, int numVentes, int numPagines, boolean conteDibuixos, boolean estaEnStock) {
-        this.titol = titol;
-        this.autor = autor;
+        this.colorL = colorL;
         this.anyPublicacio = anyPublicacio;
         this.editorial = editorial;
         this.genere = genere;
@@ -161,28 +150,36 @@ public class Llibre implements Serializable {
         this.estaEnStock = estaEnStock;
     }
 
+    public String getColorL() {
+        return colorL;
+    }
+
+    public void setColorL(String colorL) {
+        this.colorL = colorL;
+    }
+
     //ComboBox
-    public static class ColorLlibre{
-        public enum color {
+
+        public enum ColorLlibre {
             ROIG("Roig"), BLAU("Blau"), VERD("Verd"), GROC("Groc"), TARONJA("Taronja"),
             LILA("Lila"), ROSA("Rosa"), GRIS("Gris"), NEGRE("Negre"), BLANC("Blanc");
 
-            private String color;
+            private String ColorLlibre;
 
-            color(String escuderia) {
-                this.color = escuderia;
+            ColorLlibre(String ColorLlibre) {
+                this.ColorLlibre = ColorLlibre;
             }
 
-            public String getColor() {
-                return color;
+            public String getColorLlibre() {
+                return ColorLlibre;
             }
 
             @Override
             public String toString() {
-                return  color;
+                return  ColorLlibre;
             }
         }
-    }
+
 
 
 }

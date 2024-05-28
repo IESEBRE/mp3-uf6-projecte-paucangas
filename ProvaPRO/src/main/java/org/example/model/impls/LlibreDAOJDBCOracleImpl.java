@@ -46,7 +46,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             if (rs.next()) {
                 estudiant = new Llibre(rs.getString(1), rs.getString(2),
                         rs.getInt(3), rs.getString(4), rs.getString(5), rs.getDouble(6), rs.getInt(7),
-                        rs.getInt(8), rs.getBoolean(9), rs.getBoolean(10), rs.getLong(11));
+                        rs.getInt(8), rs.getBoolean(9), rs.getBoolean(10), rs.getString(11),rs.getLong(12));
             }
         } catch (SQLException throwables) {
             throw new DAOException(1);
@@ -82,7 +82,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
                 estudiants.add(new Llibre(rs.getString("TITOL"), rs.getString("AUTOR"),
                         rs.getInt("ANYPUBLICACIO"), rs.getString("EDITORIAL"), rs.getString("GENERE"),
                         rs.getDouble("PREU"), rs.getInt("NUMVENTES"), rs.getInt("NUMPAGINES"),
-                        rs.getBoolean("CONTEDIBUIXOS"), rs.getBoolean("ESTAENSTOCK"), rs.getLong("ID")));
+                        rs.getBoolean("CONTEDIBUIXOS"), rs.getBoolean("ESTAENSTOCK"), rs.getString("COLOR"),rs.getLong("ID")));
             }
         } catch (SQLException throwables) {
             int tipoError = throwables.getErrorCode();
@@ -104,7 +104,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
 
     @Override
     public void save(Llibre obj) throws DAOException {
-        String insertarSQL = "INSERT INTO LLIBRE (titol, autor, anyPublicacio, editorial, genere, preu, numVentes, numPagines, conteDibuixos, estaEnStock, ID) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String insertarSQL = "INSERT INTO LLIBRE (titol, autor, anyPublicacio, editorial, genere, preu, numVentes, numPagines, conteDibuixos, estaEnStock,color, ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         String selectMaxID = "SELECT NVL(MAX(id),0 ) +1 FROM LLIBRE";
 
         try(Connection con = DriverManager.getConnection(
@@ -128,7 +128,8 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
                 st.setInt(8, obj.getNumPagines());
                 st.setString(9, obj.isConteDibuixos()? "T" : "F");
                 st.setString(10, obj.isEstaEnStock()? "T" : "F");
-                st.setLong(11, id);
+                st.setString(11, obj.getColorL());
+                st.setLong(12, id);
                 st.executeUpdate();
             }
         } catch (SQLException throwables) {
@@ -154,7 +155,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
     }
 
     public void update(Llibre obj) throws DAOException {
-        String updateSQL = "UPDATE LLIBRE SET titol = ?, autor = ?, anyPublicacio = ?, editorial = ?, genere = ?, preu = ?, numVentes = ?, numPagines = ?, conteDibuixos = ?, estaEnStock = ? WHERE id = ?";
+        String updateSQL = "UPDATE LLIBRE SET titol = ?, autor = ?, anyPublicacio = ?, editorial = ?, genere = ?, preu = ?, numVentes = ?, numPagines = ?, conteDibuixos = ?, estaEnStock = ?, color = ? WHERE id = ?";
         try(Connection con = DriverManager.getConnection(
                 "jdbc:oracle:thin:@//localhost:1521/xe",
                 "C##HR",
@@ -172,7 +173,8 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             st.setInt(8, obj.getNumPagines());
             st.setString(9, obj.isConteDibuixos()? "T" : "F");
             st.setString(10, obj.isEstaEnStock()? "T" : "F");
-            st.setLong(11, obj.getID());
+            st.setString(11, obj.getColorL());
+            st.setLong(12, obj.getID());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throw new DAOException(1);
@@ -196,6 +198,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
                 "            numPagines NUMBER NOT NULL,\n" +
                 "            conteDibuixos CHAR(1 CHAR) NOT NULL,\n" +
                 "            estaEnStock CHAR(1 CHAR) NOT NULL,\n" +
+                "            color VARCHAR2(100) NOT NULL,\n" +
                 "            id NUMBER PRIMARY KEY\n" +
                 "        )';\n" +
                 "    END IF;\n" +

@@ -1,7 +1,11 @@
 package org.example.view;
 
+import org.example.model.entities.Llibre;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Vista extends JFrame {
     private JPanel panelPrincipal;
@@ -26,6 +30,7 @@ public class Vista extends JFrame {
     private JButton desaButton;
     private JButton informacioAdicionalButton;
     private JScrollPane scrollPane1;
+    private JComboBox colorL;
 
     public JPanel getPanelPrincipal() {
         return panelPrincipal;
@@ -184,6 +189,14 @@ public class Vista extends JFrame {
         return informacioAdicionalButton;
     }
 
+    public JComboBox getColorL() {
+        return colorL;
+    }
+
+    public void setColorL(JComboBox colorL) {
+        this.colorL = colorL;
+    }
+
     public void setInformacioAdicionalButton(JButton informacioAdicionalButton) {
         this.informacioAdicionalButton = informacioAdicionalButton;
     }
@@ -203,10 +216,15 @@ public class Vista extends JFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.pack();
         this.setVisible(true);
+        // Afegirem els valors del Enum dels colors a la ComboBox
+        for (Llibre.ColorLlibre color : Llibre.ColorLlibre.values()) {
+            colorL.addItem(color);
+        }
         autor.setText("Si no saps l'autor, pots deixar aquest camp en blanc");
         autor.setSelectionStart(0);
         autor.setSelectionEnd(autor.getText().length());
         autor.requestFocus();
+
     }
     private void createUIComponents() {
         // TODO: place custom component creation code here

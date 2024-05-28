@@ -19,7 +19,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="82c0c" layout-manager="GridLayoutManager" row-count="7" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="82c0c" layout-manager="GridLayoutManager" row-count="9" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Llibre"/>
@@ -83,7 +83,7 @@
               </component>
               <vspacer id="66d6">
                 <constraints>
-                  <grid row="1" column="1" row-span="6" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="8" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
               <component id="93283" class="javax.swing.JTextField" binding="titol">
@@ -216,7 +216,9 @@
               </component>
               <component id="343b5" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="250" height="102"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <icon value="librito.png"/>
@@ -226,7 +228,9 @@
               </component>
               <component id="62fa0" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="53" height="43"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <text value="Dibuixos"/>
@@ -234,7 +238,9 @@
               </component>
               <component id="3726f" class="javax.swing.JCheckBox" binding="conteDibuixos">
                 <constraints>
-                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="21" height="43"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <background color="-8866768"/>
@@ -243,7 +249,9 @@
               </component>
               <component id="bdb75" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="55" height="43"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <text value="En Stock"/>
@@ -251,7 +259,9 @@
               </component>
               <component id="b0a5c" class="javax.swing.JCheckBox" binding="estaEnStock">
                 <constraints>
-                  <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="21" height="43"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <background color="-8866768"/>
@@ -260,7 +270,9 @@
               </component>
               <component id="7385c" class="javax.swing.JButton" binding="buida">
                 <constraints>
-                  <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="6" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="6" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="134" height="102"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <actionCommand value=""/>
@@ -270,7 +282,9 @@
               </component>
               <component id="27af0" class="javax.swing.JButton" binding="desaButton" default-binding="true">
                 <constraints>
-                  <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="78" height="102"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <hideActionText value="false"/>
@@ -281,11 +295,37 @@
               </component>
               <component id="9afc6" class="javax.swing.JButton" binding="informacioAdicionalButton">
                 <constraints>
-                  <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="159" height="102"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <text value="Informació Adicional"/>
                   <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+              <hspacer id="b96aa">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="296fb" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="33" height="102"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Color"/>
+                  <verticalAlignment value="1"/>
+                </properties>
+              </component>
+              <component id="267c4" class="javax.swing.JComboBox" binding="colorL">
+                <constraints>
+                  <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="9" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model/>
                 </properties>
               </component>
             </children>

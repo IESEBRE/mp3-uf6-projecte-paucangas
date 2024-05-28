@@ -19,10 +19,10 @@ public class ModelComponentsVisuals {
         return modelRandom;
     }
 
-    public DefaultComboBoxModel<Llibre.ColorLlibre.color> ComboBoxModel;
+    public DefaultComboBoxModel<Llibre.ColorLlibre> ComboBoxModel;
 
     public ModelComponentsVisuals(){
-        model = new DefaultTableModel(new Object[]{"Títol", "Autor", "Any de publicació", "Editorial", "Gènere", "Preu", "Nombre de ventes", "Nombre de pàgines", "Dibuixos", "Stock","ID"}, 0) {
+        model = new DefaultTableModel(new Object[]{"Títol", "Autor", "Any de publicació", "Editorial", "Gènere", "Preu", "Nombre de ventes", "Nombre de pàgines", "Dibuixos", "Stock","Color","ID"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
 //                if (row==0 && column==1){
@@ -34,7 +34,7 @@ public class ModelComponentsVisuals {
 
             public Class getColumnClass(int column) {
                 switch (column) {
-                    case 0: case 1: case 3: case 4:
+                    case 0: case 1: case 3: case 4: case 10:
                         return String.class;
                     case 2: case 6: case 7:
                         return Integer.class;
@@ -42,7 +42,7 @@ public class ModelComponentsVisuals {
                         return Double.class;
                     case 8: case 9:
                         return Boolean.class;
-                    case 10:
+                    case 11:
                         return Long.class;
                     default:
                         return Object.class;
@@ -66,7 +66,7 @@ public class ModelComponentsVisuals {
                 }
             }
         };
-        ComboBoxModel = new DefaultComboBoxModel<>(Llibre.ColorLlibre.color.values());
+        ComboBoxModel = new DefaultComboBoxModel<>(Llibre.ColorLlibre.values());
 
     }
 
