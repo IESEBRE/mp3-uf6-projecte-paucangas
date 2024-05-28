@@ -7,10 +7,13 @@ import org.example.model.exceptions.DAOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
 
+    private DatabaseProperties dbProperties;
     public LlibreDAOJDBCOracleImpl() {
+        dbProperties = new DatabaseProperties();
         try {
             crearTaulaSiNoExisteix();
         } catch (DAOException e) {
@@ -32,9 +35,9 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
         try {
 
             con = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@//localhost:1521/xe",
-                    "C##HR",
-                    "HR"
+                    dbProperties.getUrl(),
+                    dbProperties.getUser(),
+                    dbProperties.getPassword()
             );
 //            st = con.prepareStatement("SELECT * FROM estudiant WHERE id=?;");
             st = con.createStatement();
@@ -70,9 +73,9 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
 
         //Accés a la BD usant l'API JDBC
         try (Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@//localhost:1521/xe",
-                "C##HR",
-                "HR"
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
         );
              PreparedStatement st = con.prepareStatement("SELECT * FROM LLIBRE ORDER BY ID");
              ResultSet rs = st.executeQuery();
@@ -108,9 +111,9 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
         String selectMaxID = "SELECT NVL(MAX(id),0 ) +1 FROM LLIBRE";
 
         try(Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@//localhost:1521/xe",
-                "C##HR",
-                "HR"
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
         );
             PreparedStatement stSave = con.prepareStatement(selectMaxID);
             PreparedStatement st = con.prepareStatement(insertarSQL);
@@ -137,13 +140,29 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             throw new DAOException(1);
         }
     }
+    public void insertaVentes (Llibre obj) throws DAOException {
+        String insertarSQL = "INSERT INTO VENTES (id, preuPerVenda) VALUES (?,?)";
+        try(Connection con = DriverManager.getConnection(
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
+        );
+            PreparedStatement st = con.prepareStatement(insertarSQL);
+        ) {
+            st.setLong(1, obj.getIdBD(obj.getTitol()));
+            st.setDouble(2, 0);
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throw new DAOException(1);
+        }
+    }
 
     public void delete(Llibre obj) throws DAOException {
         String deleteSQL = "DELETE FROM LLIBRE WHERE id = ?";
         try(Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@//localhost:1521/xe",
-                "C##HR",
-                "HR"
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
         );
             PreparedStatement st = con.prepareStatement(deleteSQL);
         ) {
@@ -157,9 +176,9 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
     public void update(Llibre obj) throws DAOException {
         String updateSQL = "UPDATE LLIBRE SET titol = ?, autor = ?, anyPublicacio = ?, editorial = ?, genere = ?, preu = ?, numVentes = ?, numPagines = ?, conteDibuixos = ?, estaEnStock = ?, color = ? WHERE id = ?";
         try(Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@//localhost:1521/xe",
-                "C##HR",
-                "HR"
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
         );
             PreparedStatement st = con.prepareStatement(updateSQL);
         ) {
@@ -180,7 +199,38 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
             throw new DAOException(1);
         }
     }
+    public void updatePreuPerVenda(long id) throws DAOException {
+        String call = "{call update_preuPerVenda(?)}";
 
+        try (Connection con = DriverManager.getConnection(
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
+        );
+             CallableStatement stmt = con.prepareCall(call)) {
+
+            stmt.setLong(1, id);
+
+            stmt.execute();
+        } catch (SQLException e) {
+            throw new DAOException(1);
+        }
+    }
+    public void borrarVentes (long id) throws DAOException {
+        String deleteSQL = "DELETE FROM VENTES WHERE id = ?";
+        try(Connection con = DriverManager.getConnection(
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
+        );
+            PreparedStatement st = con.prepareStatement(deleteSQL);
+        ) {
+            st.setLong(1, id);
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throw new DAOException(1);
+        }
+    }
     public void crearTaulaSiNoExisteix() throws DAOException {
         String CrearTaulaLlibre = "DECLARE\n" +
                 "    v_count NUMBER;\n" +
@@ -204,22 +254,33 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
                 "    END IF;\n" +
                 "END;";
 
+        // Ara crearem una taula que agafe els camp id de la taula llibre i un altre camp que sigui el nombre de ventes per el preu per cada un dels id
+        String CrearTaulaVentes = "DECLARE\n" +
+                "    v_count NUMBER;\n" +
+                "BEGIN\n" +
+                "    SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = 'VENTES';\n" +
+                "    IF v_count = 0 THEN\n" +
+                "        EXECUTE IMMEDIATE 'CREATE TABLE VENTES (\n" +
+                "            id NUMBER NOT NULL,\n" +
+                "            preuPerVenda NUMBER NOT NULL,\n" +
+                "            FOREIGN KEY (id) REFERENCES LLIBRE(id)\n" +
+                "        )';\n" +
+                "    END IF;\n" +
+                "END;";
+
         try (Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@//localhost:1521/xe",
-                "C##HR",
-                "HR"
+                dbProperties.getUrl(),
+                dbProperties.getUser(),
+                dbProperties.getPassword()
         );
              PreparedStatement st = con.prepareStatement(CrearTaulaLlibre);
+             PreparedStatement st2 = con.prepareStatement(CrearTaulaVentes);
         ) {
             st.execute();
+            st2.execute();
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             throw new DAOException(1);
         };
     }
-
-    // Ara farem un mètode que cree un trigger per assignar una id a cada llibre que s'afegeixi a la taula
-
-
-
 }
