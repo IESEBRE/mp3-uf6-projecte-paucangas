@@ -232,55 +232,18 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
         }
     }
     public void crearTaulaSiNoExisteix() throws DAOException {
-        String CrearTaulaLlibre = "DECLARE\n" +
-                "    v_count NUMBER;\n" +
-                "BEGIN\n" +
-                "    SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = 'LLIBRE';\n" +
-                "    IF v_count = 0 THEN\n" +
-                "        EXECUTE IMMEDIATE 'CREATE TABLE LLIBRE (\n" +
-                "            titol VARCHAR2(100) NOT NULL,\n" +
-                "            autor VARCHAR2(100) NOT NULL,\n" +
-                "            anyPublicacio NUMBER NOT NULL,\n" +
-                "            editorial VARCHAR2(100) NOT NULL,\n" +
-                "            genere VARCHAR2(100) NOT NULL,\n" +
-                "            preu NUMBER NOT NULL,\n" +
-                "            numVentes NUMBER NOT NULL,\n" +
-                "            numPagines NUMBER NOT NULL,\n" +
-                "            conteDibuixos CHAR(1 CHAR) NOT NULL,\n" +
-                "            estaEnStock CHAR(1 CHAR) NOT NULL,\n" +
-                "            color VARCHAR2(100) NOT NULL,\n" +
-                "            id NUMBER PRIMARY KEY\n" +
-                "        )';\n" +
-                "    END IF;\n" +
-                "END;";
-
-        // Ara crearem una taula que agafe els camp id de la taula llibre i un altre camp que sigui el nombre de ventes per el preu per cada un dels id
-        String CrearTaulaVentes = "DECLARE\n" +
-                "    v_count NUMBER;\n" +
-                "BEGIN\n" +
-                "    SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = 'VENTES';\n" +
-                "    IF v_count = 0 THEN\n" +
-                "        EXECUTE IMMEDIATE 'CREATE TABLE VENTES (\n" +
-                "            id NUMBER NOT NULL,\n" +
-                "            preuPerVenda NUMBER NOT NULL,\n" +
-                "            FOREIGN KEY (id) REFERENCES LLIBRE(id)\n" +
-                "        )';\n" +
-                "    END IF;\n" +
-                "END;";
-
         try (Connection con = DriverManager.getConnection(
                 dbProperties.getUrl(),
                 dbProperties.getUser(),
                 dbProperties.getPassword()
         );
-             PreparedStatement st = con.prepareStatement(CrearTaulaLlibre);
-             PreparedStatement st2 = con.prepareStatement(CrearTaulaVentes);
+             CallableStatement st = con.prepareCall("{call crear_taula_si_no_existeix}")
         ) {
             st.execute();
-            st2.execute();
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             throw new DAOException(1);
-        };
+        }
+
     }
 }
