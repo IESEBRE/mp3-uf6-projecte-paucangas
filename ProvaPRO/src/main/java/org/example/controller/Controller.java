@@ -202,7 +202,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                         int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
                         //Farem un RegEx que verifique que el camp editorial comenci per una lletra majúscula i que tingui entre 2 i 50 caràcters
 
-                        String regex = "^[A-Z][a-z]{1,49}$";
+                        String regex = "^[A-Z][A-Za-z]{0,49}$";
                         if (!editorial.getText().matches(regex)) {
                             editorial.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                             JOptionPane.showMessageDialog(null, "L'editorial ha de començar per una lletra majúscula i tenir entre 2 i 50 caràcters");
@@ -302,7 +302,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                             int campNumPagines = num.parse(numPagines.getText().trim()).intValue();
                             //Farem un RegEx que verifique que el camp editorial comenci per una lletra majúscula i que tingui entre 2 i 50 caràcters
 
-                            String regex = "^[A-Z][a-z]{1,49}$";
+                            String regex = "^[A-Z][A-Za-z]{0,49}$";
                             if (!editorial.getText().matches(regex)) {
                                 editorial.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                                 JOptionPane.showMessageDialog(null, "L'editorial ha de començar per una lletra majúscula i tenir entre 2 i 50 caràcters");
