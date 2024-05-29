@@ -23,6 +23,7 @@ public class DAOException extends Exception{
         missatges.put(13, "Error al actualitzar les dades a la BD de Llibre!!");
         missatges.put(14, "Error al actualitzar les dades a la BD de Ventes!!");
         missatges.put(15, "Error al crear les taules a la BD!!");
+        missatges.put(16, "Dades de connexió a la BD incorrectes!!");
         missatges.put(1, "Restricció d'integritat violada - clau primària duplicada");
         missatges.put(904, "Nom de columna no vàlid");
         missatges.put(936, "Falta expressió en l'ordre SQL");

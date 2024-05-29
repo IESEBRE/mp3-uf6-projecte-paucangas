@@ -98,8 +98,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
                 default:
                     tipoError = 1;  //error desconegut
             }
-            System.out.println(tipoError+" "+throwables.getMessage());
-            throw new DAOException(tipoError);
+            throw new DAOException(16);
         }
 
 
