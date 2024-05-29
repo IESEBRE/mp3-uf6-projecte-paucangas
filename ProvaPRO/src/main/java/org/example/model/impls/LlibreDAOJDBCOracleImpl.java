@@ -4,6 +4,7 @@ import org.example.model.daos.DAO;
 import org.example.model.entities.Llibre;
 import org.example.model.exceptions.DAOException;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class LlibreDAOJDBCOracleImpl implements DAO<Llibre> {
         try {
             crearTaulaSiNoExisteix();
         } catch (DAOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al obrir la base de dades, has comprovat que estiga oberta?");
         }
     }
 
