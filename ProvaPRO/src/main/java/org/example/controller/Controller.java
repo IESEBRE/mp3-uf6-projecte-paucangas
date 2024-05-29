@@ -459,6 +459,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     setExcepcio(new DAOException(4));
                     preu.setText("");
                     preu.requestFocus();
+                    JOptionPane.showMessageDialog(null, "El preu ha de ser un double positiu");
                 }
             }
         });
@@ -484,6 +485,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     setExcepcio(new DAOException(5));
                     anyPublicacio.setText("");
                     anyPublicacio.requestFocus();
+                    JOptionPane.showMessageDialog(null, "L'any de publicació ha de ser un enter positiu");
                 }
             }
         });
@@ -508,6 +510,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     setExcepcio(new DAOException(6));
                     numVentes.setText("");
                     numVentes.requestFocus();
+                    JOptionPane.showMessageDialog(null, "El nombre de vendes ha de ser un enter positiu");
                 }
             }
         });
@@ -533,6 +536,7 @@ public class Controller implements PropertyChangeListener { //1. Implementació 
                     setExcepcio(new DAOException(7));
                     numPagines.setText("");
                     numPagines.requestFocus();
+                    JOptionPane.showMessageDialog(null, "El nombre de pàgines ha de ser un enter positiu");
                 }
             }
         });
